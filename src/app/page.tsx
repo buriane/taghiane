@@ -122,7 +122,7 @@ export default function Home() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.6 }}
               className="text-lg dark:text-gray-300 text-gray-700 font-medium max-w-2xl mb-10">
-              Taghiane membantu Anda membagi tagihan dengan teman secara cepat dan adil. Cukup unggah foto nota, dan biarkan AI kami menganalisa semuanya untuk Anda.
+              Taghiane membantu Anda membagi tagihan dengan teman secara cepat dan adil. Cukup unggah foto nota, sistem akan mengekstrak detailnya untuk Anda.
             </motion.p>
 
             {/* CTA Button */}
