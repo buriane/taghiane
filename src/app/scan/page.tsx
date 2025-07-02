@@ -1,36 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from '@clerk/nextjs';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function ScanPage() {
-    const { isLoaded, userId } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (isLoaded && !userId) {
-            router.push('/?auth=required');
-        }
-    }, [isLoaded, userId, router]);
-
-    // Show loading while auth is being checked
-    if (!isLoaded) {
-        return (
-            <div className="container mx-auto px-4 py-10 max-w-4xl pt-28 mt-4">
-                <div className="flex justify-center items-center h-64">
-                    <div className="text-lg">Loading...</div>
-                </div>
-            </div>
-        );
-    }
-
-    // Show nothing if not authenticated (will redirect)
-    if (!userId) {
-        return null;
-    }
-
     return (
         <div className="container mx-auto px-4 py-10 max-w-4xl pt-28 mt-4">
             <h1 className="text-3xl font-bold mb-6">Unggah Foto Nota</h1>

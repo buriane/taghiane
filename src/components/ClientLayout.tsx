@@ -2,7 +2,6 @@
 
 import { useState, useEffect, createContext, useCallback } from 'react';
 import Navbar from '@/components/Navbar';
-import ThemeProvider from './ThemeProvider';
 import SplashScreen from './SplashScreen';
 import AuthModal from './AuthModal';
 
@@ -75,22 +74,20 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     };
 
     return (
-        <ThemeProvider>
-            <AuthModalContext.Provider value={authModalContextValue}>
-                {loading ? (
-                    <SplashScreen onComplete={handleSplashComplete} />
-                ) : (
-                    <>
-                        <Navbar />
-                        {children}
-                        <AuthModal
-                            isOpen={isAuthModalOpen}
-                            onClose={closeAuthModal}
-                            initialView={authModalView}
-                        />
-                    </>
-                )}
-            </AuthModalContext.Provider>
-        </ThemeProvider>
+        <AuthModalContext.Provider value={authModalContextValue}>
+            {loading ? (
+                <SplashScreen onComplete={handleSplashComplete} />
+            ) : (
+                <>
+                    <Navbar />
+                    {children}
+                    <AuthModal
+                        isOpen={isAuthModalOpen}
+                        onClose={closeAuthModal}
+                        initialView={authModalView}
+                    />
+                </>
+            )}
+        </AuthModalContext.Provider>
     );
 }

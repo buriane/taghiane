@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Receipt, Menu, X, Home } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
 import { UserButton, useAuth } from '@clerk/nextjs';
 import { useAuthModal } from './useAuthModal';
 
@@ -44,7 +43,7 @@ export default function Navbar() {
     // All navigation items - Home visible to all, Split Bill requires auth
     const navItems = [
         { icon: Home, name: 'Home', path: '/' },
-        { icon: Receipt, name: 'Split Bill', path: '/scan', requiresAuth: true },
+        { icon: Receipt, name: 'Split Bill', path: '/scan' },
     ];
 
     const isActive = (path: string) => {
@@ -69,22 +68,6 @@ export default function Navbar() {
                 <nav className={`hidden md:flex items-center px-5 py-2.5 space-x-2 rounded-full transition-all duration-300 ${isScrolled ? 'bg-white/85 dark:bg-gray-950/85 shadow-lg backdrop-blur-md' : 'bg-transparent'
                     }`}>
                     {navItems.map((item) => {
-                        // If the item requires auth and user is not signed in, show button that opens modal
-                        if (item.requiresAuth && !isSignedIn) {
-                            return (
-                                <button
-                                    key={item.path}
-                                    onClick={() => openAuthModal('signIn')}
-                                    className={`flex items-center space-x-1 px-3 py-2 text-sm font-medium rounded-full transition-colors
-                                    text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400`}
-                                >
-                                    <item.icon className="h-4 w-4" />
-                                    <span>{item.name}</span>
-                                </button>
-                            );
-                        }
-
-                        // For non-protected routes or authenticated users, show normal link
                         return (
                             <Link
                                 key={item.path}
@@ -102,15 +85,9 @@ export default function Navbar() {
                 </nav>
             </div>
 
-            {/* Auth buttons & theme toggle - Top Right */}
+            {/* Auth buttons - Top Right */}
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center space-x-2 pointer-events-auto z-10 transition-all duration-500 delay-300">
-                {/* Theme Toggle */}
-                <div className={`rounded-full p-2 transition-all duration-300 flex items-center justify-center ${isScrolled ? 'bg-white/85 dark:bg-gray-950/85 shadow-lg backdrop-blur-md' : 'bg-transparent'
-                    }`}>
-                    <ThemeToggle />
-                </div>
-
-                {/* UserButton - Always next to ThemeToggle when signed in */}
+                {/* UserButton */}
                 {isLoaded && isSignedIn && (
                     <div className={`rounded-full p-2 transition-all duration-300 flex items-center justify-center ${isScrolled ? 'bg-white/85 dark:bg-gray-950/85 shadow-lg backdrop-blur-md' : 'bg-transparent'}`}>
                         <UserButton afterSignOutUrl="/" />
@@ -165,24 +142,6 @@ export default function Navbar() {
                     )}
                     <div className="space-y-2">
                         {navItems.map((item) => {
-                            // If the item requires auth and user is not signed in, show button that opens modal
-                            if (item.requiresAuth && !isSignedIn) {
-                                return (
-                                    <button
-                                        key={item.path}
-                                        className={`flex w-full items-center space-x-3 px-3 py-3 text-base font-medium rounded-full text-gray-600 dark:text-gray-300`}
-                                        onClick={() => {
-                                            openAuthModal('signIn');
-                                            setIsMenuOpen(false);
-                                        }}
-                                    >
-                                        <item.icon className="h-5 w-5" />
-                                        <span>{item.name}</span>
-                                    </button>
-                                );
-                            }
-
-                            // For non-protected routes or authenticated users, show normal link
                             return (
                                 <Link
                                     key={item.path}
