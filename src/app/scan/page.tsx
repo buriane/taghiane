@@ -1,8 +1,39 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect } from "react";
+import { useAuthModal } from "@/components/useAuthModal";
 
 export default function ScanPage() {
+    const { isLoaded, userId } = useAuth();
+    const { openAuthModal } = useAuthModal();
+
+    useEffect(() => {
+        if (isLoaded && !userId) {
+            openAuthModal('signIn');
+        }
+    }, [isLoaded, userId, openAuthModal]);
+
+    if (!isLoaded) {
+        return (
+            <div className="container mx-auto px-4 py-10 max-w-4xl pt-28 mt-4 text-center">
+                <h1 className="text-2xl font-bold mb-4">Loading...</h1>
+            </div>
+        );
+    }
+
+    if (!userId) {
+        return (
+            <div className="container mx-auto px-4 py-10 max-w-4xl pt-28 mt-4 text-center">
+                <h1 className="text-2xl font-bold mb-4">Silakan masuk untuk melanjutkan</h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                    Anda harus masuk untuk menggunakan fitur ini
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="container mx-auto px-4 py-10 max-w-4xl pt-28 mt-4">
             <h1 className="text-3xl font-bold mb-6">Unggah Foto Nota</h1>

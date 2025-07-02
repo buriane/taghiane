@@ -43,7 +43,7 @@ export default function Navbar() {
     // All navigation items - Home visible to all, Split Bill requires auth
     const navItems = [
         { icon: Home, name: 'Home', path: '/' },
-        { icon: Receipt, name: 'Split Bill', path: '/scan' },
+        ...(isSignedIn ? [{ icon: Receipt, name: 'Split Bill', path: '/scan' }] : []),
     ];
 
     const isActive = (path: string) => {
